@@ -32,14 +32,23 @@ def login():
       session['user_fullname'] = user.fullname
       session['admin_status'] = user.admin_status
       if session['admin_status']:
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('main.admin_dashboard'))
       else:
-        return redirect(url_for('main.dashboard'))
+        return redirect(url_for('main.user_dashboard'))
     else:
       return "Invalid credentials!"
   else:
     return render_template('/login.html')
-  
-@main.route('/dashboard') # test dashboard
-def dashboard():
-  return render_template('/dashboard.html')
+
+# admin
+
+@main.route('/admin/dashboard')
+def admin_dashboard():
+  return render_template('/admin/admin_dashboard.html')
+
+# user
+
+@main.route('/user/dashboard')
+def user_dashboard():
+  return render_template('/user/user_dashboard.html')
+
