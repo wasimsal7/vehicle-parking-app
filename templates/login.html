@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
-  <form method="POST" action="{{ url_for('main.login') }}">
-    <div>
-      <label for="email">Email address</label>
-      <input type="text" name="email" placeholder="email" required>
+<body class="center-content">
+  <form method="POST" action="{{ url_for('main.login') }}" class="card">
+    <h1 class="card-title">Login</h1>
+    <div class="form-group">
+      <label for="email" class="form-label">Email Address</label>
+      <input type="text" name="email" placeholder="email" class="form-input" required>
     </div>
-    <br>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" placeholder="password" required>
+    <div class="form-group">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" name="password" placeholder="password" class="form-input" required>
     </div>
-    <br>
-    <button type="submit">Login</button> <br> <br>
-    <a href="{{ url_for('main.register') }}">register</a>
+    <button type="submit" class="form-button">Login</button> <br>
+    <p>Don't have an account? Register <a href="{{ url_for('main.register') }}" class="rl">here</a>.</p>
   </form>
 </body>
 </html>
