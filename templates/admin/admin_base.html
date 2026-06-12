@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="{{ url_for('main.admin_dashboard') }}" class="logo">Void Parking</a>
+      <ul>
+        <p id="admin">• Admin</p>
+        <li> <a href="{{ url_for('main.admin_dashboard') }}">Dashboard</a> </li>
+        <li> <a href="{{ url_for('main.users') }}">Users</a> </li>
+      </ul>
+      <a href="{{ url_for('main.logout') }}" class="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <div class="main-content"> {% block content %} {% endblock %} </div>
+</body>
+</html>

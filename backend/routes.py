@@ -39,12 +39,22 @@ def login():
       return "Invalid credentials!"
   else:
     return render_template('/login.html')
+  
+@main.route('/logout')
+def logout():
+  session.clear()
+  return redirect(url_for('main.login'))
 
 # admin
 
 @main.route('/admin/dashboard')
 def admin_dashboard():
   return render_template('/admin/admin_dashboard.html')
+
+@main.route('/admin/users')
+def users():
+  users = User.query.all()
+  return render_template('/admin/users.html', users=users)
 
 # user
 

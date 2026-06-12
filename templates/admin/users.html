@@ -1,0 +1,28 @@
+{% extends '/admin/admin_base.html' %}
+
+{% block title %} All Users {% endblock %}
+
+{% block content %}
+
+{% if users %}
+
+  <table>
+    <tr>
+      <th> User ID </th>
+      <th> Email </th>
+      <th> Full Name </th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td> {{ user.id }} </td>
+      <td> {{ user.email }} </td>
+      <td> {{ user.fullname }} </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+{% else %}
+  <p>No users found!</p>
+{% endif %}
+
+{% endblock %}
