@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, session, redirect, url_for
-from .models import db, User
+from .models import db, User, ParkingLot, ParkingSpot
 
 main = Blueprint('main', __name__)
 
@@ -55,6 +55,31 @@ def admin_dashboard():
 def users():
   users = User.query.all()
   return render_template('/admin/users.html', users=users)
+
+@main.route('/admin/add_lot', methods=['GET', 'POST'])
+def add_lot():
+  if request.method == 'POST':
+    location = request.form['location']
+    price = request.form['price']
+    address = request.form['address']
+    pincode = request.form['pincode']
+    max_spots = int(request.form['max_spots'])
+    lot = ParkingLot(location=location, price=price, address=address, pincode=pincode, max_spots=max_spots)
+    db.session.add(lot)
+    db.session.commit()
+
+    for i in range(1, max_spots + 1):
+      spot = ParkingSpot(lot_id=lot.id, spot_num=i)
+      db.session.add(spot)
+    db.session.commit()
+    return redirect(url_for('main.admin_dashboard'))
+  else:
+    return render_template('/admin/add_lot.html')
+  
+@main.route('/admin/lots')
+def lots():
+  lots = ParkingLot.query.all()
+  return render_template('/admin/lots.html', lots=lots)
 
 # user
 
