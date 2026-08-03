@@ -1,0 +1,38 @@
+{% extends '/admin/admin_base.html' %}
+
+{% block title %} Edit Lot {% endblock %}
+
+{% block content %}
+
+<div class="center-content">
+  <div class="card">
+    <h1 class="card-title">Lot {{ lot.id }} </h1>
+
+    <div class="form-group">
+      <label class="form-label"> Location: </label>
+      <h3> {{ lot.location }} </h3>
+      <label class="form-label"> Price: </label>
+      <h3> {{ lot.price }} </h3>
+      <label class="form-label"> Address: </label>
+      <h3> {{ lot.address }} </h3>
+      <label class="form-label"> Pin Code: </label>
+      <h3> {{ lot.pincode }} </h3>
+      <label class="form-label"> Maximum Spots: </label>
+      <h3> {{ lot.max_spots }} </h3>
+
+    <form method="POST" action="{{ url_for('main.edit_lot', lot_id=lot.id) }}">
+      <label class="form-label"> Update Spot Count: </label>
+      <input type="hidden" name="lot_id" value="{{ lot.id }}">
+      <input type="number" name="new_maxspots" class="form-input" required> 
+      <button type="submit" name="action" value="update" class="book-btn">Update</button>
+    </form>
+    </div>
+
+    <form method="POST" action="{{ url_for('main.edit_lot', lot_id=lot.id) }}">
+      <input type="hidden" name="lot_id" value="{{ lot.id }}">
+      <button type="submit" name="action" value="delete" class="delete-btn">Delete Lot</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

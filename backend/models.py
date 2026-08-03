@@ -26,4 +26,27 @@ class ParkingSpot(db.Model):
   lot_id = db.Column(db.Integer, db.ForeignKey('parkinglot.id'))
   status = db.Column(db.String, nullable=False, default='A')
   spot_num = db.Column(db.Integer, nullable=False)
+  bookings = db.relationship('Reserved', backref='spot')
 
+class Reserved(db.Model):
+  __tablename__ = 'reserved'
+  id = db.Column(db.Integer, primary_key=True)
+  spot_id = db.Column(db.Integer, db.ForeignKey('parkingspot.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  parking_timestamp = db.Column(db.DateTime, nullable=False)
+  leaving_timestamp = db.Column(db.DateTime)
+  parking_cost = db.Column(db.Float)
+  vehicle_num = db.Column(db.String, nullable=False)
+  user = db.relationship('User', backref='reserve')
+
+class BookingHistory(db.Model):
+  __tablename__ = 'bookinghistory'
+  id = db.Column(db.Integer, primary_key=True)
+  user_id = db.Column(db.Integer, nullable=False)
+  lot_id = db.Column(db.Integer, nullable=False)
+  location = db.Column(db.String, nullable=False)
+  spot_id = db.Column(db.Integer, nullable=False)
+  vehicle_num = db.Column(db.String, nullable=False)
+  parking_timestamp = db.Column(db.DateTime, nullable=False)
+  leaving_timestamp = db.Column(db.DateTime, nullable=False)
+  parking_cost = db.Column(db.Float, nullable=False)

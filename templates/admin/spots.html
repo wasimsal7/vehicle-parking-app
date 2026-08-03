@@ -1,0 +1,30 @@
+{% extends '/admin/admin_base.html' %}
+
+{% block title %} Parking Lots {% endblock %}
+
+{% block content %}
+
+{% if spots %}
+
+  <table>
+    <tr>
+      <th> Spot ID </th>
+      <th> Lot ID </th>
+      <th> Status </th>
+      <th> Spot Number </th>
+    </tr>
+    {% for spot in spots %}
+    <tr>
+      <td> {{ spot.id }} </td>
+      <td> {{ spot.lot_id }} </td>
+      <td> {{ 'Available' if spot.status == 'A' else 'Occupied' }} </td>
+      <td> {{ spot.spot_num }} </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+{% else %}
+  <p>No spots!</p>
+{% endif %}
+
+{% endblock %}

@@ -13,9 +13,13 @@
       <ul>
         <p id="admin">• Admin</p>
         <li> <a href="{{ url_for('main.admin_dashboard') }}">Dashboard</a> </li>
-        <li> <a href="{{ url_for('main.users') }}">Users</a> </li>
         <li> <a href="{{ url_for('main.add_lot') }}">Add Lot</a> </li>
+        <li> <a href="{{ url_for('main.users') }}">Users</a> </li>
         <li> <a href="{{ url_for('main.lots') }}">Lots</a> </li>
+        <li> <a href="{{ url_for('main.spots') }}">Spots</a> </li>
+        <li> <a href="{{ url_for('main.reserved') }}">Reserved</a> </li>
+        <li> <a href="{{ url_for('main.history') }}">History</a> </li>
+        <li> <a href="{{ url_for('main.admin_summary') }}">Summary</a> </li>
       </ul>
       <a href="{{ url_for('main.logout') }}" class="logout-btn">Logout</a>
     </div>

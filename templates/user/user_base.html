@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %} User Base {% endblock %}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <a href="{{ url_for('main.user_dashboard') }}" class="logo">Void Parking</a>
+      <ul class="user-nav">
+        <li> <a href="{{ url_for('main.user_dashboard') }}">Dashboard</a> </li>
+        <li> <a href="{{ url_for('main.booking') }}">Booking</a> </li>
+        <li> <a href="{{ url_for('main.user_summary') }}">Summary</a> </li>
+      </ul>
+      <a href="{{ url_for('main.logout') }}" class="logout-btn">Logout</a>
+    </div>
+  </nav>
+
+  <div class="main-content"> {% block content %} {% endblock %} </div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends '/user/user_base.html' %}
+
+{% block title %} Confirm Booking {% endblock %}
+
+{% block content %}
+
+<div class="center-content">
+  <form method="POST" action="{{ url_for('main.book', lot_id=lot.id) }}" class="card">
+    <h1 class="card-title">Lot {{ lot.id }} </h1>
+    <div class="form-group">
+      <label class="form-label"> Location: </label>
+      <h3> {{ lot.location }} </h3>
+      <label class="form-label"> Price: </label>
+      <h3> {{ lot.price }} </h3>
+      <label class="form-label"> Address: </label>
+      <h3> {{ lot.address }} </h3>
+      <label class="form-label"> Pin Code: </label>
+      <h3> {{ lot.pincode }} </h3>
+      <label class="form-label"> Maximum Spots: </label>
+      <h3> {{ lot.max_spots }} </h3>
+      <label class="form-label"> Enter your Vehicle Number: </label>
+      <input type="text" name="vehicle_num" class="form-input" required>
+    </div>
+    <input type="hidden" name="lot_id" value="{{ lot.id }}">
+    <button type="submit" class="form-button">Book</button>
+  </form>
+</div>
+
+{% endblock %}

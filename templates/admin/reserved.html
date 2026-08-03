@@ -1,12 +1,9 @@
 {% extends '/admin/admin_base.html' %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} Reserved {% endblock %}
 
 {% block content %}
 
-<h2> Welcome admin. </h2> <br>
-
-<p style="font-weight: bold;"> Currently Booked Spots : </p>
 {% if reserved %}
   <table>
     <tr>
@@ -23,7 +20,7 @@
       <td> {{ res.id }} </td>
       <td> {{ res.user_id }} </td>
       <td> {{ res.user.fullname }} </td>
-      <td> {{ res.spot.lot_id }} </td>
+      <td> {{ res.spot.lot_id }}</td>
       <td> {{ res.spot_id }} </td>
       <td> {{ res.vehicle_num }} </td>
       <td> {{ res.parking_timestamp }} </td>
@@ -32,7 +29,7 @@
   </table>
  
 {% else %}
-  <p>No bookings!</p>
+  <p>No reserved!</p>
 {% endif %}
 
 {% endblock %}

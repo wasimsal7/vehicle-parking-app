@@ -1,11 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
-</head>
-<body>
-  <h1>Hello User!</h1>
-</body>
-</html>
+{% extends '/user/user_base.html' %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+
+<h2> Welcome {{ fullname }}. </h2>
+
+{% if booking %}
+  <table>
+    <tr>
+      <th> Booked Lot </th>
+      <th> Booked Spot </th>
+      <th> Actions </th>
+    </tr>
+    <tr>
+      <td> {{ booking.spot.lot.location }} </td>
+      <td> {{ booking.spot.spot_num }} </td>
+      <td>
+        <form method="POST">
+          <input type="hidden" name="release_spot" value="{{ booking.spot_id }}">
+          <button type="submit" class="book-btn">Release Spot</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+{% else %}
+  <p> You haven't Booked a Spot. <a href="{{ url_for('main.booking') }}"> Book Now! </a> </p>
+{% endif %}
+
+<h2> Reservation History </h2>
+{% if booking_history %}
+
+  <table>
+    <tr>
+      <th> Lot Location </th>
+      <th> Vehicle Number </th>
+      <th> Parking Timestamp </th>
+      <th> Leaving TImestamp </th>
+      <th> Parking Cost </th>
+    </tr>
+    {% for booking in booking_history %}
+    <tr>
+      <td> {{ booking.location }} </td>
+      <td> {{ booking.vehicle_num }} </td>
+      <td> {{ booking.parking_timestamp }} </td>
+      <td> {{ booking.leaving_timestamp }} </td>
+      <td> {{ booking.parking_cost }} </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+{% else %}
+<p> No booking history! </p>
+{% endif %}
+
+{% endblock %}

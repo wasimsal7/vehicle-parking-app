@@ -1,6 +1,6 @@
-{% extends '/admin/admin_base.html' %}
+{% extends '/user/user_base.html' %}
 
-{% block title %} Parking Lots {% endblock %}
+{% block title %} Booking {% endblock %}
 
 {% block content %}
 
@@ -8,32 +8,36 @@
 
   <table>
     <tr>
-      <th> Lot ID </th>
       <th> Location </th>
-      <th> Price (Per Hour)</th>
+      <th> Price (Per Hour) </th>
       <th> Address </th>
       <th> Pin Code </th>
       <th> Spots </th>
+      <th> Availability </th>
       <th> Actions </th>
     </tr>
     {% for lot in lots %}
     <tr>
-      <td> {{ lot.id }} </td>
       <td> {{ lot.location }} </td>
       <td> {{ lot.price }} </td>
       <td> {{ lot.address }} </td>
       <td> {{ lot.pincode }} </td>
       <td> {{ lot.max_spots }} </td>
-      <td> <a href="{{ url_for('main.edit_lot', lot_id=lot.id) }}" class="book-btn"> Edit Lot
-      </a> </td>
+      <td>
+        {% if lot.available %}
+          Available
+        {% else %}
+          Full
+        {% endif %}
+      </td>
+      <td>
+        <a href="{{ url_for('main.book', lot_id=lot.id) }}" class="book-btn"> Book </a>
+      </td>
     </tr>
     {% endfor %}
   </table>
-  <br> <br>
-  <a href="{{ url_for('main.add_lot') }}">Add more lots</a>
-
 {% else %}
-  <p>No Lots found! Create lot <a href="{{ url_for('main.add_lot') }}">here</a> </p>
+  <p> No lots available! </p>
 {% endif %}
 
 {% endblock %}
