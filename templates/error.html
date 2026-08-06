@@ -10,7 +10,12 @@
   <div class="card">
     <h1 class="card-title" style="margin-bottom: 0;">Error!</h1>
     <p>{{ message }}</p>
-    <a href="{{ url_for('main.user_dashboard') }}" class="rl">Go to dashboard</a>
+    <p style="margin-bottom: 0;">
+      Login <a href="{{ url_for('main.login') }}" class="rl">here</a>. 
+    </p>
+    <p>
+      Register <a href="{{ url_for('main.register') }}" class="rl">here</a>.
+    </p>
   </div>
 </body>
 </html>
