@@ -41,7 +41,7 @@ def login():
       else:
         return redirect(url_for('main.user_dashboard'))
     else:
-      return "Invalid credentials!"
+      return render_template('/error.html', message='Invalid credentials!')
   else:
     return render_template('/login.html')
   
@@ -54,17 +54,27 @@ def logout():
 
 @main.route('/admin/dashboard')
 def admin_dashboard():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   reserved = Reserved.query.all()
   return render_template('/admin/admin_dashboard.html', reserved=reserved)
 
 @main.route('/admin/users')
 def users():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   users = User.query.all()
   return render_template('/admin/users.html', users=users)
 
 @main.route('/admin/add_lot', methods=['GET', 'POST'])
 def add_lot():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
+
   if request.method == 'POST':
+    if not session.get('admin_status'):
+      return render_template('/user/user_error.html', message='Access Denied!')
+    
     location = request.form['location']
     price = request.form['price']
     address = request.form['address']
@@ -84,14 +94,22 @@ def add_lot():
   
 @main.route('/admin/lots')
 def lots():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   lots = ParkingLot.query.all()
   return render_template('/admin/lots.html', lots=lots)
 
 @main.route('/admin/edit_lot/<int:lot_id>', methods=['GET', 'POST'])
 def edit_lot(lot_id):
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
+  
   lot = ParkingLot.query.get(lot_id)
   
   if request.method == 'POST':
+    if not session.get('admin_status'):
+      return render_template('/user/user_error.html', message='Access Denied!')
+    
     action = request.form.get('action')
     lot_id = request.form.get('lot_id')
 
@@ -116,7 +134,8 @@ def edit_lot(lot_id):
           db.session.commit()
 
       else:
-        return "New spot count can't be less than occupied spot count!"
+        return render_template('/admin/admin_error.html', 
+                               message='New spot count can\'t be less than occupied spot count!')
     
     elif action == 'delete':
       empty = True
@@ -129,7 +148,8 @@ def edit_lot(lot_id):
         db.session.commit()
         return redirect(url_for('main.lots'))
       else:
-        return "Non-empty lots cannot be deleted!"
+        return render_template('/admin/admin_error.html', 
+                               message='Non-empty lots cannot be deleted!')
       
     return render_template('/admin/edit_lot.html', lot=lot)
       
@@ -138,21 +158,29 @@ def edit_lot(lot_id):
 
 @main.route('/admin/reserved')
 def reserved():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   reserved = Reserved.query.all()
   return render_template('/admin/reserved.html', reserved=reserved)
 
 @main.route('/admin/history')
 def history():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   history = BookingHistory.query.all()
   return render_template('/admin/history.html', history=history)
 
 @main.route('/admin/spots')
 def spots():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   spots = ParkingSpot.query.all()
   return render_template('/admin/spots.html', spots=spots)
 
 @main.route('/admin/admin_summary')
 def admin_summary():
+  if not session.get('admin_status'):
+    return render_template('/user/user_error.html', message='Access Denied!')
   lots = ParkingLot.query.all()
   labels = []
   available_count = []
@@ -192,6 +220,9 @@ def admin_summary():
 
 @main.route('/user/dashboard', methods=['GET', 'POST'])
 def user_dashboard():
+  if 'user_id' not in session:
+    return redirect(url_for('main.login'))
+
   user_id = session.get('user_id')
   fullname = session.get('user_fullname')
   
@@ -244,13 +275,14 @@ def book(lot_id):
     
     booking = Reserved.query.filter_by(user_id=user_id, leaving_timestamp=None).first()
     if booking:
-      return "You have already booked a spot. Release it first."
+      return render_template('/user/user_error.html', 
+                             message='You have already booked a spot. Release it first.')
     
     lot_id = request.form['lot_id']
     vehicle_num = request.form['vehicle_num']
     spot = ParkingSpot.query.filter_by(lot_id=lot_id, status='A').first()
     if not spot:
-      return "No available spots in this lot."
+      return render_template('/user/user_error.html', message='No available spots in this lot.')
     
     new_booking = Reserved(user_id=user_id, spot_id=spot.id, vehicle_num=vehicle_num, parking_timestamp=datetime.now())
     spot.status = 'O' 
