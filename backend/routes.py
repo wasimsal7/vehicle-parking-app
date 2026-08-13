@@ -16,7 +16,7 @@ def register():
     password = request.form['password']
     user = User.query.filter_by(email=email).first()
     if user:
-      return "Email already taken!"
+      return render_template('/error.html', message='Email already taken!')
     new_user = User(email=email, fullname=fullname, password=password)
     db.session.add(new_user)
     db.session.commit()
